@@ -1,6 +1,24 @@
-var http = require('http');
-http.createServer(function (req, res) {
-    console.log(`Just got a request at ${req.url}!`)
-    res.write('Yo!');
-    res.end();
-}).listen(process.env.PORT || 3000);
+const express = require('express');
+const bodyParser = require('body-parser');
+const app = express();
+const port = 3000; // Change this to your desired port number
+
+// Use middleware to parse JSON request bodies
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.json());
+
+// Define a route to handle POST requests
+app.post('/uploadhwid', (req, res) => {
+    const receivedHWID = req.body; // Assuming you are sending the HWID in the request body
+
+    // You can process the received HWID here, e.g., store it in a database
+    console.log('Received HWID:', receivedHWID);
+
+    // Send a response back to the client (optional)
+    res.send('HWID received successfully');
+});
+
+// Start the server
+app.listen(port, () => {
+    console.log(`Server is running on port ${port}`);
+});
